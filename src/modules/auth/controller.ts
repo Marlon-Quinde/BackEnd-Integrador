@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { UserI } from "../../interfaces/Auth.interface";
+import { UserI, ICredencial } from "../../interfaces/Auth.interface";
 import { AuthServices } from "./services";
 
 export const RegisterController = async (req: Request) => {
@@ -10,3 +10,16 @@ export const RegisterController = async (req: Request) => {
         throw error
     }
 }
+
+export const LoginController = async (req: Request) => {
+    try{
+        const {username, password} = req.body as ICredencial
+        return await new AuthServices().loginService(username, password)
+    }catch (error){
+        throw error
+    }
+
+}
+
+
+

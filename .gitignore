@@ -2,3 +2,6 @@
 /dist
 
 .env
+
+/docker
+.vscode
