@@ -17,8 +17,8 @@ export class AuthServices {
     this._authRepository = new AuthRepository();
   }
 
-  async registerService(username: string, password: string) {
-    const existingUser = await this._authRepository.findByUsername(username);
+  async registerService(username: string, email: string, password: string,) {
+    const existingUser = await this._authRepository.findByUsername(email);
     if (existingUser) {
       throw new Error("El usuario ya existe");
     }
@@ -26,6 +26,7 @@ export class AuthServices {
     const newUser = await this._authRepository.createUser({
       username,
       password,
+      email,
     });
     return HttpResponse.response(
       CodesHttpEnum.created,
@@ -34,15 +35,14 @@ export class AuthServices {
     );
   }
 
-  async loginService(username: string, password: string) {
-    const allUser = await this._authRepository.readUsers();
-    const existUser = allUser.find((user) => user.username == username);
+  async loginService(email: string, password: string ) {
+    const existUser = await this._authRepository.findByUsername(email)
 
     if (!existUser) {
       throw new Error("El usuario no existe");
     }
 
-    if (existUser.password !== password) {
+    if (!existUser.verificarPassword(password)) {
       throw new Error("Clave incorrecta");
     }
 
