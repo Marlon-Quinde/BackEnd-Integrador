@@ -1,32 +1,26 @@
-// ? authServices
-// ? auth_services
-// ? AuthServices - PascalCase
-
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
 import { HttpResponse } from "../../utils/httpResponse";
 import AuthRepository from "./repository";
-import fs from "fs/promises";
-import path from "path";
 import jwt from "jsonwebtoken";
+import UserRepository from "../user/repository";
+import { UserAttributes } from "../../models/User";
 
-const userData = path.join("src", "data", "users.json");
 
 export class AuthServices {
   private readonly _authRepository: AuthRepository;
+  private readonly _userRepository: UserRepository
   constructor() {
     this._authRepository = new AuthRepository();
+    this._userRepository = new UserRepository();
   }
 
-  async registerService(username: string, password: string) {
-    const existingUser = await this._authRepository.findByUsername(username);
+  async registerService(payload: UserAttributes) {
+    const existingUser = await this._userRepository.FindUserByEmail(payload.email);
     if (existingUser) {
       throw new Error("El usuario ya existe");
     }
 
-    const newUser = await this._authRepository.createUser({
-      username,
-      password,
-    });
+    const newUser = await this._userRepository.CreateUser(payload);
     return HttpResponse.response(
       CodesHttpEnum.created,
       newUser,

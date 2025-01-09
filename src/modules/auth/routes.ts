@@ -2,13 +2,14 @@ import { NextFunction, Request, Response, Router } from "express";
 import { LoginController, RegisterController } from "./controller";
 import { HttpResponse } from "../../utils/httpResponse";
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
-import { loginValidation } from "./validations";
+import { loginValidation, registerValidation } from "./validations";
 import { validate } from "express-validation";
 
 const routes = Router();
 
 routes.post(
   "/register",
+  validate(registerValidation, {}, {}) as any,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const response = await RegisterController(req);
@@ -22,13 +23,6 @@ routes.post(
     }
   }
 );
-
-/*
-interface ICredencial{
-    user: string,
-    password:string
-
-}*/
 
 routes.post(
   "/login",
