@@ -15,7 +15,7 @@ app.use(express.json());
 async function main() {
   try {
     await db.authenticate();
-    await db.sync({force: true}) // ! La sincronización con el force en true, puede eliminar registros o columnas
+    await db.sync() // ! La sincronización con el force en true, puede eliminar registros o columnas
     console.log("Conexión establecida con la BD.");
   } catch (error) {
     console.error("Ocurrio un error al conectarse con la BD:", error);

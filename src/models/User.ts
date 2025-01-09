@@ -1,5 +1,6 @@
 import { DataTypes, ModelDefined, Optional } from "sequelize";
 import db from "../config/dbOrm";
+import bcrypt from "bcrypt"
 
 export interface UserAttributes {
   id?: number;
@@ -37,6 +38,12 @@ const User: ModelDefined<UserAttributes, UserCreationAttributes> = db.define(
     }
   },
   {
+    hooks: {
+        beforeCreate: async function (user: any) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+        },
+    },
     scopes: {
         eliminarPassword: {
             attributes: {
