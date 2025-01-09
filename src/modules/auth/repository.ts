@@ -1,8 +1,7 @@
 import { UserI } from "../../interfaces/Auth.interface";
 import fs from 'fs/promises';
 import path from 'path';
-import { User } from "../../models/index";
-import { UserModel } from "../../models/User";
+import User, { UserModel } from "../../models/User";
 
 const dataFilePath = path.join('src', 'data', 'users.json');
 export default class AuthRepository {

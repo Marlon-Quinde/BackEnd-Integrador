@@ -6,6 +6,11 @@ import db from "./config/dbOrm";
 import authRoutes from "./modules/auth/routes";
 import { ValidationError } from "express-validation";
 
+
+;
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./config/swagger.config";
+
 const app = express();
 
 // ? Configuracion de JSON para del proyecto 
@@ -15,7 +20,7 @@ app.use(express.json());
 async function main() {
   try {
     await db.authenticate();
-    await db.sync({force: true});
+    await db.sync();
     console.log("conexion correcta");
   } catch (error) {
     console.log(error);
@@ -26,6 +31,7 @@ main()
 const prefix: string = "/api";
 
 // ? Deficion de rutas por modulos
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(`${prefix}/auth`, authRoutes)
 
 app.use(function(err: any, req: Request, res: Response, next: NextFunction) {

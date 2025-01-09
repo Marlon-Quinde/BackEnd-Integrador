@@ -7,6 +7,47 @@ import { validate } from "express-validation";
 
 const routes = Router();
 
+/**
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Crear un usuario
+ *     description: Crea un nuevo recurso en el sistema.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Nombre del ejemplo.
+ *                 example: "Nuevo ejemplo"
+ *               description:
+ *                 type: string
+ *                 description: Descripción del ejemplo.
+ *                 example: "Descripción detallada"
+ *     responses:
+ *       201:
+ *         description: Ejemplo creado exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: ID del ejemplo creado.
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   description: Nombre del ejemplo.
+ *                   example: "Nuevo ejemplo"
+ *       400:
+ *         description: Error en la solicitud (datos inválidos).
+ */
+
 routes.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
@@ -23,13 +64,48 @@ routes.post(
   }
 );
 
-/*
-interface ICredencial{
-    user: string,
-    password:string
 
-}*/
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Crea un nuevo ejemplo
+ *     description: Crea un nuevo recurso en el sistema.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: email.
+ *                 example: "string"
+ *               password:
+ *                 type: string
+ *                 description: email.
+ *                 example: "string"
+ *     responses:
+ *       201:
+ *         description: Ejemplo creado exitosamente.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 id:
+ *                   type: integer
+ *                   description: ID del ejemplo creado.
+ *                   example: 1
+ *                 name:
+ *                   type: string
+ *                   description: Nombre del ejemplo.
+ *                   example: "Nuevo ejemplo"
+ *       400:
+ *         description: Error en la solicitud (datos inválidos).
+ */
 routes.post(
   "/login",
   validate(loginValidation, {}, {}) as any,
