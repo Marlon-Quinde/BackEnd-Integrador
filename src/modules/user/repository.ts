@@ -1,20 +1,27 @@
+import db from "../../config/dbOrm";
+import { initModels } from "../../models/init-models";
 import User, { UserAttributes } from "../../models/User";
+import { Usuario, UsuarioAttributes } from "../../models/usuario";
 
 export default class UserRepository {
-    async CreateUser(payload: UserAttributes){
-        return User.create({
-            email: payload.email,
-            password: payload.password,
-            username: payload.username,
-            dateOfBirth: payload.dateOfBirth
-        })
+
+    async CreateUser(payload: UsuarioAttributes){
+        try {
+            return Usuario.create(payload)
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     async FindUserByEmail(email: string){
-        return User.findOne({
-            where: {
-                email
-            }
-        })
+        try {
+            return await Usuario.findOne({
+                where: {
+                    email
+                }
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 }

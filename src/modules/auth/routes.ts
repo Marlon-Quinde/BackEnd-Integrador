@@ -7,6 +7,45 @@ import { validate } from "express-validation";
 
 const routes = Router();
 
+ /**
+   * @swagger
+   * /api/auth/register:
+   *   post:
+   *     description: Register to the application
+   *     tags: [Auth]
+   *     requestBody:
+   *      required: true
+   *      content:
+   *       application/json:
+   *         schema:
+   *          type: object
+   *          properties:
+   *            nombre:
+   *              type: string
+   *              descripcion: nombre
+   *              example: "string"
+   *            email:
+   *              type: string
+   *              descripcion: email
+   *              example: "string"
+   *            password:
+   *              type: string
+   *              descripcion: password
+   *              example: "string"
+   *            username:
+   *              type: string
+   *              descripcion: username
+   *              example: "string"
+   *            fechaNacimiento:
+   *              type: string
+   *              descripcion: fechaNacimiento
+   *              example: "string"
+   *     responses:
+   *       200:
+   *         description: login
+   *         schema:
+   *           type: object
+   */
 routes.post(
   "/register",
   validate(registerValidation, {}, {}) as any,

@@ -4,6 +4,7 @@ import AuthRepository from "./repository";
 import jwt from "jsonwebtoken";
 import UserRepository from "../user/repository";
 import { UserAttributes } from "../../models/User";
+import { UsuarioAttributes } from "../../models/usuario";
 
 
 export class AuthServices {
@@ -14,7 +15,7 @@ export class AuthServices {
     this._userRepository = new UserRepository();
   }
 
-  async registerService(payload: UserAttributes) {
+  async registerService(payload: UsuarioAttributes) {
     const existingUser = await this._userRepository.FindUserByEmail(payload.email);
     if (existingUser) {
       throw new Error("El usuario ya existe");

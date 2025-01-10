@@ -2,10 +2,11 @@ import { Request } from "express";
 import { UserI, ICredencial } from "../../interfaces/Auth.interface";
 import { AuthServices } from "./services";
 import { UserAttributes } from "../../models/User";
+import { UsuarioAttributes } from "../../models/usuario";
 
 export const RegisterController = async (req: Request) => {
     try {
-        const payload = req.body as UserAttributes
+        const payload = req.body as UsuarioAttributes
         return await new AuthServices().registerService(payload)
     } catch (error) {
         throw error
