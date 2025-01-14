@@ -2,7 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import { LoginController, RegisterController } from "./controller";
 import { HttpResponse } from "../../utils/httpResponse";
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
-import { loginValidation } from "./validations";
+import { LoginValidation, RegistrarValidation } from "./validations";
 import { validate } from "express-validation";
 
 const routes = Router();
@@ -20,11 +20,15 @@ const routes = Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nombre:
  *                 type: string
  *                 description: Nombre del ejemplo.
  *                 example: "Nuevo ejemplo"
- *               description:
+ *               email:
+ *                 type: string
+ *                 description: Descripción del ejemplo.
+ *                 example: "Descripción detallada"
+ *               username:
  *                 type: string
  *                 description: Descripción del ejemplo.
  *                 example: "Descripción detallada"
@@ -50,6 +54,7 @@ const routes = Router();
 
 routes.post(
   "/register",
+  validate(RegistrarValidation, {}, {}) as any,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const response = await RegisterController(req);
@@ -63,8 +68,6 @@ routes.post(
     }
   }
 );
-
-
 
 /**
  * @swagger
@@ -108,13 +111,9 @@ routes.post(
  */
 routes.post(
   "/login",
-  validate(loginValidation, {}, {}) as any,
+  validate(LoginValidation, {}, {}) as any,
   async (req: Request, res: Response) => {
     try {
-      //const {user, password} = req.body as ICredencial
-
-      // const response = await LoginController()
-      // res.status(response.code).json(response)
       const response = await LoginController(req);
       res.status(response.code).json(response);
     } catch (error) {

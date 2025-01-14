@@ -1,12 +1,12 @@
-import { UserI } from "../../interfaces/Auth.interface";
 import fs from 'fs/promises';
 import path from 'path';
-import User, { UserModel } from "../../models/User";
+import { IUser } from '../../interfaces/User-Json.interface';
+
 
 const dataFilePath = path.join('src', 'data', 'users.json');
 export default class AuthRepository {
 
-    async readUsers(): Promise<UserI[] | Array<UserI>> {
+    async readUsers(): Promise<IUser[] | Array<IUser>> {
         try {
             const data = await fs.readFile(dataFilePath, 'utf-8')
             return JSON.parse(data)
@@ -15,25 +15,11 @@ export default class AuthRepository {
         }
     }
 
-    async writeUsers(users: UserI[]): Promise<void>{
+    async writeUsers(users: []): Promise<void>{
         await fs.writeFile(dataFilePath, JSON.stringify(users, null, 2), 'utf-8')
     }
+    
 
-    async createUser(user: UserI): Promise<any> {
-        return await User.create({
-            email: user.email,
-            nombre: user.username,
-            password: user.password,
-        })
-    }
-
-    async findByUsername(email: string): Promise<UserModel | null> {
-        const usuario = await User.findOne({
-            where: {
-                email
-            }
-        })
-        return usuario
-    }
+    
 
 }

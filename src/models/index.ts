@@ -1,3 +1,3 @@
-import User from "./User"
+import Usuario from "./Usuario"
 
-export {User}
+export {Usuario}

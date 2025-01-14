@@ -1,11 +1,13 @@
+
 import { Request } from "express";
-import { UserI, ICredencial } from "../../interfaces/Auth.interface";
+import { ILogin } from "../../interfaces/Auth.interface";
+import { IUsuarioModel } from "../../models/Usuario";
 import { AuthServices } from "./services";
 
 export const RegisterController = async (req: Request) => {
     try {
-        const {username, password, email} = req.body as UserI
-        return await new AuthServices().registerService(username, email ,password)
+        const payload = req.body as IUsuarioModel
+        return await new AuthServices().RegisterService(payload)
     } catch (error) {
         throw error
     }
@@ -13,8 +15,8 @@ export const RegisterController = async (req: Request) => {
 
 export const LoginController = async (req: Request) => {
     try{
-        const {email, password} = req.body as ICredencial
-        return await new AuthServices().loginService(email, password)
+        const {email, password} = req.body as ILogin
+        return await new AuthServices().LoginService(email, password)
     }catch (error){
         throw error
     }

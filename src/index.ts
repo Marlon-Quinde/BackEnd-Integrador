@@ -20,7 +20,7 @@ app.use(express.json());
 async function main() {
   try {
     await db.authenticate();
-    await db.sync();
+    await db.sync({alter: true});
     console.log("conexion correcta");
   } catch (error) {
     console.log(error);
