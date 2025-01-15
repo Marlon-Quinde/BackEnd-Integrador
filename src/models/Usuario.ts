@@ -25,6 +25,11 @@ type IUsuarioModelCrearte = Optional<IUsuarioModel, "id">;
 const Usuario: ModelDefined<IUsuarioModel, IUsuarioModelCrearte> = db.define(
   "Usuario",
   {
+    id: {
+      type: DataTypes.INTEGER.UNSIGNED,
+      autoIncrement: true,
+      primaryKey: true
+    },
     nombre: {
       type: DataTypes.STRING,
       allowNull: false,

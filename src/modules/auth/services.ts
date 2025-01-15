@@ -54,7 +54,7 @@ export class AuthServices {
 
       const usuario = existeUsuario.dataValues;
 
-      if (!usuario.verificarPassword!(password)) {
+      if (!(existeUsuario as any).verificarPassword!(password)) {
         return HttpResponse.response(
           CodesHttpEnum.created,
           null,

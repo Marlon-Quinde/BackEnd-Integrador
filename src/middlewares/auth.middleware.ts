@@ -3,6 +3,7 @@ import { HttpResponse } from "../utils/httpResponse";
 import { CodesHttpEnum } from "../enums/codesHttpEnum";
 import jwt from 'jsonwebtoken';
 import { PUBLIC_KEY } from "../environments/env";
+import { IToken } from "../interfaces/Token.interface";
 
 export const AuthMiddleware = (
   req: Request,
@@ -13,7 +14,7 @@ export const AuthMiddleware = (
     const existeToken = req.headers.authorization;
 
     if (!existeToken) {
-      return HttpResponse.fail(
+      HttpResponse.fail(
         res,
         CodesHttpEnum.forbidden,
         null,
@@ -21,13 +22,21 @@ export const AuthMiddleware = (
       );
     }
 
-    const token = existeToken.split(' ')[1]
+    const token = existeToken!.split(' ')[1]
 
-    const decoded = jwt.verify(token, PUBLIC_KEY)
+    const decoded: IToken = jwt.verify(token, PUBLIC_KEY) as any
 
     // ? Implementar validacion por fecha de expiracion del token
-
-    console.log(decoded)
+    const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+    if(decoded.exp < currentTime){
+      HttpResponse.fail(
+        res,
+        CodesHttpEnum.forbidden,
+        null,
+        "Token expirado vuelva a iniciar sesion nuevamente."
+      );
+    }
+    
     next()
   } catch (error) {
     throw error;

@@ -4,6 +4,7 @@ import db from "./config/dbOrm";
 
 // ? Rutas del proyecto
 import authRoutes from "./modules/auth/routes";
+import productoRoutes from "./modules/product/routes";
 import { ValidationError } from "express-validation";
 
 
@@ -33,6 +34,7 @@ const prefix: string = "/api";
 // ? Deficion de rutas por modulos
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(`${prefix}/auth`, authRoutes)
+app.use(`${prefix}/productos`, productoRoutes)
 
 app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
     if (err instanceof ValidationError) {
