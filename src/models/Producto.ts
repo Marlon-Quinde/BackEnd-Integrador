@@ -33,7 +33,7 @@ import {
         allowNull: false,
       },
       precio: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.DOUBLE(10, 2),
         allowNull: false,
       },
       estado: {
