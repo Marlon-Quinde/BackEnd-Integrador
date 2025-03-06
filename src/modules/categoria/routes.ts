@@ -1,18 +1,32 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { AuthMiddleware } from "../../middlewares/auth.middleware";
 import { HttpResponse } from "../../utils/httpResponse";
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
-import { DeleteFisicProductosController, DeleteLogicProductosController, getProductCatalog, GetProductosController, UpdateProductosController } from "./controller";
+import { createCategory, deleteFisicCategory, deleteLogicCategory, getCategories, updateCategory } from "./controller";
 
 const routes = Router();
 
+routes.post(
+  "/new",
+  async (req: Request, res:Response, next: NextFunction) => {
+    try {
+      const response = await createCategory(req);
+      res.status(response.code).json(response);
+    } catch ( error ) {
+      HttpResponse.fail(
+        res,
+        CodesHttpEnum.internalServerError,
+        (error as any).toString()
+      );
+    }
+  }
+);
+
 routes.get(
-  "/listar",
-  // AuthMiddleware,
+  "/",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const queryParam = req.query.estado as string
-      const response = await GetProductosController(req, queryParam.toUpperCase() == 'TRUE');
+      let estado: number = Number(req.query.estado);
+      const response: any = await getCategories(req, estado)
       res.status(response.code).json(response);
     } catch (error) {
       HttpResponse.fail(
@@ -24,27 +38,10 @@ routes.get(
   }
 );
 
-routes.get(
-  "/catalog",
-  // AuthMiddleware,
-  async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const response = await getProductCatalog();
-      res.status(response.code).json(response);
-    } catch (error) {
-      HttpResponse.fail(
-        res,
-        CodesHttpEnum.internalServerError,
-        (error as any).toString()
-      );
-    }
-  }
-);
 
-routes.put("/actualizar/:id", async (req: Request, res: Response, next: NextFunction) => {
+routes.put("/actualizar", async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const idProducto = req.params.id
-    const response = await UpdateProductosController(req, Number(idProducto));
+    const response = await updateCategory(req);
     res.status(response.code).json(response);
   } catch (error) {
     HttpResponse.fail(
@@ -59,7 +56,7 @@ routes.put("/actualizar/:id", async (req: Request, res: Response, next: NextFunc
 routes.delete("/eliminacion-logica/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idProducto = req.params.id
-    const response = await DeleteLogicProductosController(req, Number(idProducto));
+    const response = await deleteLogicCategory(req, Number(idProducto));
     res.status(response.code).json(response);
   } catch (error) {
     HttpResponse.fail(
@@ -73,7 +70,7 @@ routes.delete("/eliminacion-logica/:id", async (req: Request, res: Response, nex
 routes.delete("/eliminacion-fisica/:id", async (req: Request, res: Response, next: NextFunction) => {
   try {
     const idProducto = req.params.id
-    const response = await DeleteFisicProductosController(req, Number(idProducto));
+    const response = await deleteFisicCategory(req, Number(idProducto));
     res.status(response.code).json(response);
   } catch (error) {
     HttpResponse.fail(

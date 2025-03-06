@@ -5,6 +5,7 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     host: DB_HOST,
     port: Number(DB_PORT),
     dialect: "postgres",
+    schema: "retail",
     define: {
       timestamps: true,
     },

@@ -1,4 +1,5 @@
-import { Producto } from "../../models";
+import { where } from "sequelize";
+import { Categoria, Producto } from "../../models";
 import { IProductoModel } from "../../models/Producto";
 
 export default class ProductRepository {
@@ -12,7 +13,7 @@ export default class ProductRepository {
         },
         include: [
           {
-            foreignKey: "idCategoria",
+            foreignKey: "categoria_id",
             all: true,
             
           },
@@ -36,14 +37,14 @@ export default class ProductRepository {
     try {
       return await Producto.update(
         {
-          descripcion: payload.descripcion,
+          prod_descripcion: payload.prod_descripcion,
           estado: payload.estado,
-          nombre: payload.nombre,
-          precio: payload.precio,
+          prod_ult_precio: payload.prod_ult_precio,
+          usu_id_reg: payload.usu_id_reg,
         },
         {
           where: {
-            id,
+            prod_id : payload.prod_id!,
           },
         }
       );
@@ -62,11 +63,11 @@ export default class ProductRepository {
     try {
       return await Producto.update(
         {
-          estado: false,
+          estado: 0,
         },
         {
           where: {
-            id,
+            prod_id: id, 
           },
         }
       );
@@ -79,10 +80,48 @@ export default class ProductRepository {
     try {
       return await Producto.destroy({
         where: {
-          id,
+          prod_id: id,
         },
       });
     } catch (error) {
+      throw error;
+    }
+  }
+
+  getProductsCatalog = async (): Promise<any[]> => {
+    try {
+      let dataProduct = await Producto.findAll({
+        where: {
+          estado: 1
+        }
+      });
+
+      let dataProductWithCategory: any[] = await Promise.all(
+
+        dataProduct.map( async (product) => {
+          let dataCategory: any;
+          while (!dataCategory) {
+            dataCategory = await Categoria.findOne({
+              where: {
+                categoria_id: Number(product.get('categoria_id'))
+              }
+            });
+          }
+          
+          return {
+            prod_id: Number(product.get('prod_id')),
+            prod_descripcion : String(product.get('prod_descripcion')),
+            prod_ult_precio : Number(product.get('prod_ult_precio')),
+            categoria : String(dataCategory!.get('categoria')),
+            categoria_id: Number(dataCategory!.get('categoria_id'))
+          }
+        })
+      )
+      return dataProductWithCategory;
+    } catch ( error ) {
+      if (error instanceof Error) {
+        console.error(`Error en repositorio de productos: ${ error.message }`)
+      }
       throw error;
     }
   }

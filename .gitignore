@@ -5,3 +5,4 @@
 
 /docker
 .vscode
+package-lock.json

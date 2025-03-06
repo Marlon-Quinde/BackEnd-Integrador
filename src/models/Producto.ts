@@ -7,40 +7,45 @@ import {
   import db from "../config/dbOrm";
   
   export interface IProductoModel {
-    id?: number;
-    nombre: string;
-    descripcion: string;
-    precio: number;
-    estado: boolean;
+    prod_id?: number;
+    prod_descripcion: string;
+    prod_ult_precio: number;
+    estado: number;
+    usu_id_reg: number;
+    usu_id_act?: number;
   }
   
-  type IProductoModelCrearte = Optional<IProductoModel, "id">;
+  type IProductoModelCrearte = Optional<IProductoModel, "prod_id">;
   
   const Producto: ModelDefined<IProductoModel, IProductoModelCrearte> = db.define(
-    "Producto",
+    "productos",
     {
-      id: {
+      prod_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true
       },
-      nombre: {
+      prod_descripcion: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      descripcion: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      precio: {
+      prod_ult_precio: {
         type: DataTypes.DOUBLE(10, 2),
         allowNull: false,
       },
       estado: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: true
+        defaultValue: 1,
       },
+      usu_id_reg: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
+      usu_id_act: {
+        type: DataTypes.BIGINT,
+        allowNull: true
+      }
     },
     
   );

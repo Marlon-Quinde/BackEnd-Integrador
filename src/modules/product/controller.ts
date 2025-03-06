@@ -40,3 +40,14 @@ export const DeleteFisicProductosController = async (
     throw error;
   }
 };
+
+export const getProductCatalog = async () => {
+  try {
+    return await new ProductoService().getProductsCatalog();
+  } catch ( error ) {
+    if (error instanceof Error) {
+      console.error(`Ha ocurrido un error al consultar el catalogo de productos: ${error.message}`);
+    }
+    throw error;
+  }
+}

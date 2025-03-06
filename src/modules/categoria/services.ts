@@ -1,36 +1,44 @@
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
-import { IProductoModel } from "../../models/Producto";
+import { ICategoriaModel } from "../../models/Categoria";
 import { HttpResponse } from "../../utils/httpResponse";
-import ProductRepository from "./repository";
+import CateogoriaRepository from "./repository";
 
-export class ProductoService {
-  private readonly _productoRepository: ProductRepository;
+export class CategoryService {
+  private readonly _categoriaRepository: CateogoriaRepository;
   constructor() {
-    this._productoRepository = new ProductRepository();
+    this._categoriaRepository = new CateogoriaRepository();
   }
 
-  async GetProductosServices(estadoProductos: boolean) {
+  async createCategory(payload: ICategoriaModel) {
     try {
-      const productos = await this._productoRepository.GetProductsRepository(estadoProductos);
+      await this._categoriaRepository.createCategory(payload);
+      return HttpResponse.response(CodesHttpEnum.ok);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async getCategories(estado: number) {
+    try {
+      const productos = await this._categoriaRepository.GetCategories(estado);
       return HttpResponse.response(CodesHttpEnum.ok, productos);
     } catch (error) {
       throw error;
     }
   }
 
-  async UpdateProductosServices(id: number, payload: IProductoModel) {
+  async updateCategory(payload: ICategoriaModel) {
     try {
-      const producto = await this._productoRepository.FindProductById(id);
-
-      if (!producto) {
+      const category = await this._categoriaRepository.findCategoryById(payload.categoria_id!);
+      if (!category) {
         return HttpResponse.response(
           CodesHttpEnum.notFound,
           null,
-          `No existe un producto con el id: ${id}`
+          `No existe categoria con el id: ${payload.categoria_id}`
         );
       }
 
-      if (!producto.dataValues.estado) {
+      if (!category.dataValues.estado) {
         return HttpResponse.response(
           CodesHttpEnum.forbidden,
           null,
@@ -39,14 +47,14 @@ export class ProductoService {
       }
 
       const updateProduct =
-        await this._productoRepository.UpdateProductsRepository(id, payload);
+        await this._categoriaRepository.updateCategory(payload.categoria_id!, payload);
 
       // ? if(!0)
       if(!updateProduct?.length){
         return HttpResponse.response(
             CodesHttpEnum.notModified,
             null,
-            `Error al actualizar el producto con id ${id}`
+            `Error al actualizar el producto con id ${payload.categoria_id}`
           );
       }
 
@@ -60,9 +68,9 @@ export class ProductoService {
     }
   }
 
-  async DeleteLogicProductosServices(id: number) {
+  async DeleteLogicCategory(id: number) {
     try {
-      const producto = await this._productoRepository.FindProductById(id);
+      const producto = await this._categoriaRepository.findCategoryById(id);
 
       if (!producto) {
         return HttpResponse.response(
@@ -74,7 +82,7 @@ export class ProductoService {
 
 
       const updateProduct =
-        await this._productoRepository.DeleteLogicProductById(id);
+        await this._categoriaRepository.DeleteLogicCategoryId(id);
 
       // ? if(!0)
       if(!updateProduct?.length){
@@ -95,9 +103,9 @@ export class ProductoService {
     }
   }
 
-  async DeleteFisicProductosServices(id: number) {
+  async deleteFisicCategory(id: number) {
     try {
-      const producto = await this._productoRepository.FindProductById(id);
+      const producto = await this._categoriaRepository.findCategoryById(id);
 
       if (!producto) {
         return HttpResponse.response(
@@ -109,7 +117,7 @@ export class ProductoService {
 
 
       const updateProduct =
-        await this._productoRepository.DeleteFisicProductById(id);
+        await this._categoriaRepository.DeleteFisicCategoryById(id);
 
       // ? if(!0)
       if(!updateProduct){
@@ -126,22 +134,6 @@ export class ProductoService {
         `Producto eliminado correctamente`
       );
     } catch (error) {
-      throw error;
-    }
-  }
-
-  async getProductsCatalog() {
-    try {
-      let dataProduct = await this._productoRepository.getProductsCatalog();
-      return HttpResponse.response(
-        CodesHttpEnum.ok,
-        dataProduct,
-        `Productos cargados correctamente`
-      );
-    } catch ( error ) {
-      if (error instanceof Error) {
-        console.error(`Ha ocurrido un error al consultar el catalogo de productos: ${error.message}`);
-      }
       throw error;
     }
   }

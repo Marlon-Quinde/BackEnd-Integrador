@@ -7,35 +7,40 @@ import {
   import db from "../config/dbOrm";
   
   export interface ICategoriaModel {
-    id?: number;
-    nombre: string;
-    descripcion: string;
-    estado: boolean;
+    categoria_id?: number;
+    categoria: string;
+    estado?: number;
+    usu_id_reg: number;
+    usu_id_act?: number;
   }
   
-  type ICategoriaModelCrearte = Optional<ICategoriaModel, "id">;
+  type ICategoriaModelCrearte = Optional<ICategoriaModel, "categoria_id">;
   
   const Categoria: ModelDefined<ICategoriaModel, ICategoriaModelCrearte> = db.define(
-    "Categoria",
+    "categoria",
     {
-      id: {
+      categoria_id: {
         type: DataTypes.INTEGER.UNSIGNED,
         autoIncrement: true,
         primaryKey: true
       },
-      nombre: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      descripcion: {
+      categoria: {
         type: DataTypes.STRING,
         allowNull: false,
       },
       estado: {
-        type: DataTypes.BOOLEAN,
+        type: DataTypes.INTEGER,
         allowNull: false,
-        defaultValue: true
+        defaultValue: 1
       },
+      usu_id_reg: {
+        type: DataTypes.BIGINT,
+        allowNull: false,
+      },
+      usu_id_act: {
+        type: DataTypes.BIGINT,
+        allowNull: true
+      }
     },
     
   );
