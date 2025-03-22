@@ -44,6 +44,12 @@ app.use(`${prefix}/usuarios`, usuarioRoutes)
 app.use(`${prefix}/category`, categoryRoutes)
 app.use(`${prefix}/brand`, brandRoutes)
 
+app.get("/isalive", (req: Request, res: Response, next: NextFunction) => {
+   res.json({
+    message: "Welcome, to back-integrator"
+  });
+});
+
 app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
     if (err instanceof ValidationError) {
       return res.status(err.statusCode).json(err)
