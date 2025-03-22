@@ -1,33 +1,27 @@
 import { DataTypes, ModelDefined, NOW, Optional } from "sequelize";
 import db from "../config/dbOrm";
 
-export interface IPuntoEmisionModel {
-    punto_emision_id?: number;
-    punto_emision: string,
-    utl_secuencia: number;
-    usu_id_reg: number;
+export interface IPaisModel{
+    pais_id?: number;
+    pais_nombre: string;
     estado?: number;
+    usu_id_reg: number;
     usu_id_act?: number;
 }
 
-type IPuntoEmisionModelCreate = Optional<IPuntoEmisionModel, "punto_emision_id">;
+type IPaisModelCreate = Optional<IPaisModel, "pais_id">;
 
-const PuntoEmision: ModelDefined<IPuntoEmisionModel, IPuntoEmisionModelCreate> = db.define(
-    "punto_emision_sri",
+const Pais: ModelDefined<IPaisModel, IPaisModelCreate> = db.define(
+    "pais",
     {
-        punto_emision_id: {
+        pais_id: {
             type: DataTypes.BIGINT.UNSIGNED,
             primaryKey: true,
             autoIncrement: true
         },
-        punto_emision: {
+        pais_nombre: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        utl_secuencia: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            defaultValue: 0
         },
         estado: {
             type: DataTypes.INTEGER,
@@ -35,11 +29,11 @@ const PuntoEmision: ModelDefined<IPuntoEmisionModel, IPuntoEmisionModelCreate> =
             defaultValue: 1
         },
         usu_id_reg: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         usu_id_act: {
-            type: DataTypes.BIGINT,
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         createdAt: {
@@ -51,7 +45,6 @@ const PuntoEmision: ModelDefined<IPuntoEmisionModel, IPuntoEmisionModelCreate> =
             type: 'TIMESTAMP WITH TIME ZONE',
             allowNull: true
         }
-    }
-);
+    });
 
-export default PuntoEmision;
+    export default Pais;

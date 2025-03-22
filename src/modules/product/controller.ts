@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { ProductoService } from "./services";
-import { IProductoModel } from "../../models/Producto";
+import { IProductoModel } from "../../models/producto";
 
 export const GetProductosController = async (req: Request, estadoProductos: boolean) => {
   try {
@@ -41,9 +41,9 @@ export const DeleteFisicProductosController = async (
   }
 };
 
-export const getProductCatalog = async () => {
+export const getProductCatalog = async (estado?: any) => {
   try {
-    return await new ProductoService().getProductsCatalog();
+    return await new ProductoService().getProductsCatalog(estado);
   } catch ( error ) {
     if (error instanceof Error) {
       console.error(`Ha ocurrido un error al consultar el catalogo de productos: ${error.message}`);

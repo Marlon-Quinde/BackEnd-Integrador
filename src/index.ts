@@ -8,6 +8,7 @@ import authRoutes from "./modules/auth/routes";
 import productoRoutes from "./modules/product/routes";
 import usuarioRoutes from "./modules/user/routes"
 import categoryRoutes from "./modules/categoria/routes"
+import brandRoutes from './modules/marca/routes'
 import { ValidationError } from "express-validation";
 
 
@@ -41,12 +42,13 @@ app.use(`${prefix}/auth`, authRoutes)
 app.use(`${prefix}/productos`, productoRoutes)
 app.use(`${prefix}/usuarios`, usuarioRoutes)
 app.use(`${prefix}/category`, categoryRoutes)
+app.use(`${prefix}/brand`, brandRoutes)
 
 app.use(function(err: any, req: Request, res: Response, next: NextFunction) {
     if (err instanceof ValidationError) {
       return res.status(err.statusCode).json(err)
     }
-    return res.status(500).json(err)
+    return res.status(400).json(err)
  } as any)
 
 const port: number = Number(PORT);

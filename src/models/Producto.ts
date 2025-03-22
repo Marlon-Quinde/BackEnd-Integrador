@@ -18,7 +18,7 @@ import {
   type IProductoModelCrearte = Optional<IProductoModel, "prod_id">;
   
   const Producto: ModelDefined<IProductoModel, IProductoModelCrearte> = db.define(
-    "productos",
+    "producto",
     {
       prod_id: {
         type: DataTypes.INTEGER.UNSIGNED,

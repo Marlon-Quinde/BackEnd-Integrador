@@ -1,4 +1,4 @@
-import { DataTypes, ModelDefined, Optional } from "sequelize";
+import { DataTypes, ModelDefined, NOW, Optional } from "sequelize";
 import db from "../config/dbOrm";
 
 
@@ -70,6 +70,15 @@ const Cliente: ModelDefined<IClienteModel, IClienteModelCreate> = db.define(
         },
         usu_id_act: {
             type: DataTypes.BIGINT,
+            allowNull: true
+        },
+        createdAt: {
+            type: 'TIMESTAMP WITH TIME ZONE',
+            defaultValue: NOW,
+            allowNull: false
+        },
+        updatedAt: {
+            type: 'TIMESTAMP WITH TIME ZONE',
             allowNull: true
         }
     }

@@ -6,7 +6,7 @@ import { CodesHttpEnum } from "../../enums/codesHttpEnum";
 import { HttpResponse } from "../../utils/httpResponse";
 import AuthRepository from "./repository";
 import jwt from "jsonwebtoken";
-import { IUsuarioModel } from "../../models/Usuario";
+import { IUsuarioModel } from "../../models/usuario";
 import UsuarioRepository from "../user/repository";
 import { PUBLIC_KEY } from "../../environments/env";
 
@@ -63,7 +63,7 @@ export class AuthServices {
       }
 
       const token = jwt.sign(
-        { username: usuario.nombre, email: usuario.email },
+        { username: usuario.usu_nombre, email: usuario.email },
         PUBLIC_KEY,
         { expiresIn: 60 * 60 }
       );

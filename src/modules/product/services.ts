@@ -1,5 +1,5 @@
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
-import { IProductoModel } from "../../models/Producto";
+import { IProductoModel } from "../../models/producto";
 import { HttpResponse } from "../../utils/httpResponse";
 import ProductRepository from "./repository";
 
@@ -130,9 +130,9 @@ export class ProductoService {
     }
   }
 
-  async getProductsCatalog() {
+  async getProductsCatalog(estado?: any) {
     try {
-      let dataProduct = await this._productoRepository.getProductsCatalog();
+      let dataProduct = await this._productoRepository.getProductsCatalog(estado);
       return HttpResponse.response(
         CodesHttpEnum.ok,
         dataProduct,

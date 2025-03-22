@@ -1,8 +1,8 @@
 import { where } from "sequelize";
 import { Categoria, Producto } from "../../models";
-import { IProductoModel } from "../../models/Producto";
+import { IProductoModel } from "../../models/producto";
 import { IMarcaModel } from "../../models/marca";
-import { ICategoriaModel } from "../../models/Categoria";
+import { ICategoriaModel } from "../../models/categoria";
 
 export default class CateogoriaRepository {
   
@@ -17,13 +17,22 @@ export default class CateogoriaRepository {
     }
   }
   
-  async GetCategories(estado: number) {
+  async GetCategories(estado?: number) {
     try {
-      const query = Categoria.findAll({
-        where: {
-          estado: 1,
-        }
-      });
+      let fields = ['categoria_id', 'categoria', 'estado'];
+      let query: any;
+      if(estado !== undefined && estado !== null && !isNaN(estado)){
+        query = Categoria.findAll({
+         attributes: fields,
+         where: {
+           estado,
+         }
+       });
+      }else {
+        query = Categoria.findAll({
+          attributes: fields
+        });
+      }
       return await query
     } catch (error) {
       throw error;

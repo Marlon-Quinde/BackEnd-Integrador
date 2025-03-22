@@ -1,4 +1,4 @@
-import { IUsuarioModel } from '../models/Usuario';
+import { IUsuarioModel } from '../models/usuario';
 
 export interface IToken extends IUsuarioModel {
     iat: number,

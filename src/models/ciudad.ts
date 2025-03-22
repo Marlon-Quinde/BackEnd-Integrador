@@ -1,33 +1,27 @@
 import { DataTypes, ModelDefined, NOW, Optional } from "sequelize";
 import db from "../config/dbOrm";
 
-export interface IPuntoEmisionModel {
-    punto_emision_id?: number;
-    punto_emision: string,
-    utl_secuencia: number;
-    usu_id_reg: number;
+export interface ICiudadModel {
+    ciudad_id?: number;
+    ciudad_nombre: string;
     estado?: number;
+    usu_id_reg: number;
     usu_id_act?: number;
 }
 
-type IPuntoEmisionModelCreate = Optional<IPuntoEmisionModel, "punto_emision_id">;
+type ICiudadModelCreate = Optional<ICiudadModel, "ciudad_id">;
 
-const PuntoEmision: ModelDefined<IPuntoEmisionModel, IPuntoEmisionModelCreate> = db.define(
-    "punto_emision_sri",
+const Ciudad: ModelDefined<ICiudadModel, ICiudadModelCreate> = db.define(
+    'ciudad',
     {
-        punto_emision_id: {
+        ciudad_id: {
             type: DataTypes.BIGINT.UNSIGNED,
             primaryKey: true,
             autoIncrement: true
         },
-        punto_emision: {
+        ciudad_nombre: {
             type: DataTypes.STRING,
             allowNull: false
-        },
-        utl_secuencia: {
-            type: DataTypes.BIGINT,
-            allowNull: false,
-            defaultValue: 0
         },
         estado: {
             type: DataTypes.INTEGER,
@@ -54,4 +48,4 @@ const PuntoEmision: ModelDefined<IPuntoEmisionModel, IPuntoEmisionModelCreate> =
     }
 );
 
-export default PuntoEmision;
+export default Ciudad;

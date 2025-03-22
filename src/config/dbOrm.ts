@@ -7,6 +7,7 @@ const db = new Sequelize(DB_NAME, DB_USER, DB_PASS, {
     dialect: "postgres",
     schema: "retail",
     define: {
+      freezeTableName: true,
       timestamps: true,
     },
     pool: {

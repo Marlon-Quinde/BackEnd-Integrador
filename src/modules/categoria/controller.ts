@@ -1,6 +1,6 @@
 import { Request } from "express";
 import { CategoryService } from "./services";
-import { ICategoriaModel } from "../../models/Categoria";
+import { ICategoriaModel } from "../../models/categoria";
 
 
 export const createCategory = async (req: Request) => {

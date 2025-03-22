@@ -1,10 +1,13 @@
 import {
     DataTypes,
     ModelDefined,
+    NOW,
     Optional,
+    Sequelize,
   } from "sequelize";
   import bcrypt from "bcrypt";
   import db from "../config/dbOrm";
+import { now } from "sequelize/types/utils";
   
   export interface ICategoriaModel {
     categoria_id?: number;
@@ -40,9 +43,17 @@ import {
       usu_id_act: {
         type: DataTypes.BIGINT,
         allowNull: true
+      },
+      createdAt: {
+        type: 'TIMESTAMP WITH TIME ZONE',
+        defaultValue: NOW,
+        allowNull: false
+      },
+      updatedAt: {
+        type: 'TIMESTAMP WITH TIME ZONE',
+        allowNull: true
       }
-    },
-    
+    }
   );
   
   export default Categoria;

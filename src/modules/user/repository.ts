@@ -1,6 +1,6 @@
 
 import path from 'path';
-import { IUsuarioModel } from "../../models/Usuario";
+import { IUsuarioModel } from "../../models/usuario";
 import { Usuario } from "../../models/index";
 
 

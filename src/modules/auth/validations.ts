@@ -1,5 +1,5 @@
 import { Joi } from "express-validation";
-import { IUsuarioModel } from "../../models/Usuario";
+import { IUsuarioModel } from "../../models/usuario";
 import { ILogin } from "../../interfaces/Auth.interface";
 
 export const LoginValidation = {
@@ -22,9 +22,7 @@ export const RegistrarValidation = {
       password: Joi.string()
         .regex(/[a-zA-Z0-9]{3,30}/)
         .required(),
-      nombre: Joi.string()
-        .required(),
-      fechaNacimiento: Joi.string()
-          .required()
+      usu_nombre: Joi.string()
+        .required()
     }),
 }

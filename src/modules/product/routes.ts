@@ -29,7 +29,8 @@ routes.get(
   // AuthMiddleware,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const response = await getProductCatalog();
+      const queryParam = Number(req.query.estado);
+      const response = await getProductCatalog(queryParam);
       res.status(response.code).json(response);
     } catch (error) {
       HttpResponse.fail(

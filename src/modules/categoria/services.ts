@@ -1,5 +1,5 @@
 import { CodesHttpEnum } from "../../enums/codesHttpEnum";
-import { ICategoriaModel } from "../../models/Categoria";
+import { ICategoriaModel } from "../../models/categoria";
 import { HttpResponse } from "../../utils/httpResponse";
 import CateogoriaRepository from "./repository";
 
@@ -18,10 +18,11 @@ export class CategoryService {
     }
   }
 
-  async getCategories(estado: number) {
+  async getCategories(estado?: number) {
     try {
-      const productos = await this._categoriaRepository.GetCategories(estado);
-      return HttpResponse.response(CodesHttpEnum.ok, productos);
+      const categorias = await this._categoriaRepository.GetCategories(estado);
+     
+      return HttpResponse.response(CodesHttpEnum.ok, categorias);
     } catch (error) {
       throw error;
     }

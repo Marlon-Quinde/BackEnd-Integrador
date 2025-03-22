@@ -1,6 +1,6 @@
-import { where } from "sequelize";
-import { Categoria, Producto } from "../../models";
-import { IProductoModel } from "../../models/Producto";
+import { Model, where } from "sequelize";
+import { Categoria, Marca, Producto } from "../../models";
+import { IProductoModel } from "../../models/producto";
 
 export default class ProductRepository {
   // ? ListadoProductos
@@ -88,32 +88,44 @@ export default class ProductRepository {
     }
   }
 
-  getProductsCatalog = async (): Promise<any[]> => {
+  getProductsCatalog = async (estado?: any): Promise<any[]> => {
     try {
-      let dataProduct = await Producto.findAll({
-        where: {
-          estado: 1
-        }
-      });
+      let dataProduct;
+      if(estado !== undefined && estado !== null && !isNaN(estado)){
+        dataProduct = await Producto.findAll({
+          where: {
+            estado
+          }
+        });
+      } else {
+        dataProduct = await Producto.findAll();
+      }
 
       let dataProductWithCategory: any[] = await Promise.all(
 
         dataProduct.map( async (product) => {
-          let dataCategory: any;
-          while (!dataCategory) {
-            dataCategory = await Categoria.findOne({
+          
+            let dataCategory = await Categoria.findOne({
               where: {
                 categoria_id: Number(product.get('categoria_id'))
               }
             });
-          }
+
+            let dataBrand = await Marca.findOne({
+              where: {
+                marca_id: Number( product.get('marca_id'))
+              }
+            })
+          
           
           return {
             prod_id: Number(product.get('prod_id')),
             prod_descripcion : String(product.get('prod_descripcion')),
             prod_ult_precio : Number(product.get('prod_ult_precio')),
             categoria : String(dataCategory!.get('categoria')),
-            categoria_id: Number(dataCategory!.get('categoria_id'))
+            categoria_id: Number(dataCategory!.get('categoria_id')),
+            marca: String(dataBrand!.get('marca_descrip')),
+            marca_id: Number(dataBrand!.get('marca_id'))
           }
         })
       )

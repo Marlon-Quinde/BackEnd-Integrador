@@ -1,7 +1,7 @@
 
 import { Request } from "express";
 import { ILogin } from "../../interfaces/Auth.interface";
-import { IUsuarioModel } from "../../models/Usuario";
+import { IUsuarioModel } from "../../models/usuario";
 import { AuthServices } from "./services";
 
 export const RegisterController = async (req: Request) => {
